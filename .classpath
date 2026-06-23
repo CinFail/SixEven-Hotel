@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.53.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jasperreports-6.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/jasperreports-fonts-6.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/openpdf-1.3.30.jaspersoft.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-digester3-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/ecj-3.37.0.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-4.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/logback-classic-1.4.11.jar"/>
+	<classpathentry kind="lib" path="lib/logback-core-1.4.11.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-2.0.9.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib-fx/javafx-swt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

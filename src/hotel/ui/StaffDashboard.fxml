@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hotel.ui.StaffDashboardController"
+            prefWidth="1000" prefHeight="680"
+            style="-fx-background-color: #1a1a2e;">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox style="-fx-background-color:#16213e;-fx-padding:12 20;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏨  Hotel Reservation System"
+                   style="-fx-text-fill:white;-fx-font-size:16px;-fx-font-weight:bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" style="-fx-text-fill:#aaaaaa;-fx-font-size:12px;"/>
+            <Button text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color:#e94560;-fx-text-fill:white;
+                           -fx-background-radius:4;-fx-cursor:hand;-fx-font-size:11px;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" style="-fx-background-color:#1a1a2e;">
+
+            <!-- ═══ ROOMS TAB ═══ -->
+            <Tab text="  Rooms  ">
+                <VBox spacing="10" style="-fx-padding:15;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Room Management"
+                               style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="+ Add Room" onAction="#handleAddRoom"
+                                style="-fx-background-color:#27ae60;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="✏ Edit Room" onAction="#handleEditRoom"
+                                style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="🗑 Delete Room" onAction="#handleDeleteRoom"
+                                style="-fx-background-color:#c0392b;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                    </HBox>
+                    <TableView fx:id="roomsTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color:#16213e;">
+                        <columns>
+                            <TableColumn fx:id="colRoomNum"    text="Room #"      prefWidth="80"/>
+                            <TableColumn fx:id="colRoomType"   text="Type"        prefWidth="160"/>
+                            <TableColumn fx:id="colRoomPrice"  text="Price/Night" prefWidth="120"/>
+                            <TableColumn fx:id="colRoomCap"    text="Capacity"    prefWidth="80"/>
+                            <TableColumn fx:id="colRoomDesc"   text="Description" prefWidth="230"/>
+                            <TableColumn fx:id="colRoomStatus" text="Status"      prefWidth="110"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- ═══ RESERVATIONS TAB ═══ -->
+            <Tab text="  Reservations  ">
+                <VBox spacing="10" style="-fx-padding:15;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="All Reservations"
+                               style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="+ New Reservation" onAction="#handleNewReservation"
+                                style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="✓ Check Out" onAction="#handleCheckOut"
+                                style="-fx-background-color:#e67e22;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="✕ Cancel" onAction="#handleCancelReservation"
+                                style="-fx-background-color:#c0392b;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="↺ Refresh" onAction="#handleRefresh"
+                                style="-fx-background-color:#555;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                    </HBox>
+                    <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color:#16213e;">
+                        <columns>
+                            <TableColumn fx:id="colResId"       text="ID"        prefWidth="50"/>
+                            <TableColumn fx:id="colResCustomer" text="Customer"  prefWidth="150"/>
+                            <TableColumn fx:id="colResRoom"     text="Room"      prefWidth="70"/>
+                            <TableColumn fx:id="colResType"     text="Type"      prefWidth="130"/>
+                            <TableColumn fx:id="colResCheckIn"  text="Check-In"  prefWidth="105"/>
+                            <TableColumn fx:id="colResCheckOut" text="Check-Out" prefWidth="105"/>
+                            <TableColumn fx:id="colResNights"   text="Nights"    prefWidth="65"/>
+                            <TableColumn fx:id="colResGuests"   text="Guests"    prefWidth="65"/>
+                            <TableColumn fx:id="colResStatus"   text="Status"    prefWidth="100"/>
+                            <TableColumn fx:id="colResTotal"    text="Total (₱)" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- ═══ CUSTOMERS TAB ═══ -->
+            <Tab text="  Customers  ">
+                <SplitPane dividerPositions="0.45" orientation="HORIZONTAL"
+                           style="-fx-background-color:#1a1a2e; -fx-padding:15;">
+                    <!-- Left: customer list -->
+                    <VBox spacing="10" style="-fx-padding:0 10 0 0;">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Customer Profiles"
+                                   style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="✏ Edit Profile" onAction="#handleEditCustomer"
+                                    style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                           -fx-background-radius:4;-fx-cursor:hand;"/>
+                        </HBox>
+                        <TableView fx:id="customersTable" VBox.vgrow="ALWAYS"
+                                   style="-fx-background-color:#16213e;">
+                            <columns>
+                                <TableColumn fx:id="colCustId"    text="ID"        prefWidth="40"/>
+                                <TableColumn fx:id="colCustName"  text="Full Name" prefWidth="170"/>
+                                <TableColumn fx:id="colCustUser"  text="Username"  prefWidth="120"/>
+                                <TableColumn fx:id="colCustPhone" text="Phone"     prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <!-- Right: selected customer history -->
+                    <VBox spacing="8" style="-fx-padding:0 0 0 10;">
+                        <Label text="Reservation History"
+                               style="-fx-text-fill:white;-fx-font-size:14px;-fx-font-weight:bold;"/>
+                        <Label fx:id="custDetailLabel"
+                               style="-fx-text-fill:#aaaaaa;-fx-font-size:11px;" wrapText="true"/>
+                        <TableView fx:id="custHistoryTable" VBox.vgrow="ALWAYS"
+                                   style="-fx-background-color:#16213e;">
+                            <columns>
+                                <TableColumn fx:id="colHistId"      text="ID"       prefWidth="40"/>
+                                <TableColumn fx:id="colHistRoom"    text="Room"     prefWidth="60"/>
+                                <TableColumn fx:id="colHistIn"      text="Check-In" prefWidth="100"/>
+                                <TableColumn fx:id="colHistOut"     text="Check-Out" prefWidth="100"/>
+                                <TableColumn fx:id="colHistNights"  text="Nights"   prefWidth="60"/>
+                                <TableColumn fx:id="colHistTotal"   text="Total"    prefWidth="90"/>
+                                <TableColumn fx:id="colHistStatus"  text="Status"   prefWidth="95"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </SplitPane>
+            </Tab>
+
+            <!-- ═══ BILLING TAB ═══ -->
+            <Tab text="  Billing  ">
+                <VBox spacing="10" style="-fx-padding:15;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Bills &amp; Payments"
+                               style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="📄 Generate Bill" onAction="#handleGenerateBill"
+                                style="-fx-background-color:#8e44ad;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                        <Button text="💲 Mark as Paid" onAction="#handleMarkPaid"
+                                style="-fx-background-color:#27ae60;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                    </HBox>
+                    <TableView fx:id="billsTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color:#16213e;">
+                        <columns>
+                            <TableColumn fx:id="colBillId"       text="Bill #"    prefWidth="60"/>
+                            <TableColumn fx:id="colBillCustomer" text="Customer"  prefWidth="150"/>
+                            <TableColumn fx:id="colBillRoom"     text="Room"      prefWidth="65"/>
+                            <TableColumn fx:id="colBillNights"   text="Nights"    prefWidth="60"/>
+                            <TableColumn fx:id="colBillCheckIn"  text="Check-In"  prefWidth="100"/>
+                            <TableColumn fx:id="colBillCheckOut" text="Check-Out" prefWidth="100"/>
+                            <TableColumn fx:id="colBillSubtotal" text="Subtotal"  prefWidth="90"/>
+                            <TableColumn fx:id="colBillDiscount" text="Discount"  prefWidth="80"/>
+                            <TableColumn fx:id="colBillAmount"   text="Grand Total" prefWidth="100"/>
+                            <TableColumn fx:id="colBillPaid"     text="Status"    prefWidth="80"/>
+                            <TableColumn fx:id="colBillMethod"   text="Payment"   prefWidth="100"/>
+                            <TableColumn fx:id="colBillDate"     text="Issued"    prefWidth="130"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>

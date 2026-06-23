@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hotel.ui.NewReservationController"
+            prefWidth="820" prefHeight="600"
+            style="-fx-background-color: #1a1a2e;">
+
+    <top>
+        <HBox style="-fx-background-color:#16213e;-fx-padding:12 20;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏨  Hotel Reservation System"
+                   style="-fx-text-fill:white;-fx-font-size:16px;-fx-font-weight:bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="← Back" onAction="#handleBack"
+                    style="-fx-background-color:#555;-fx-text-fill:white;
+                           -fx-background-radius:4;-fx-cursor:hand;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="20" style="-fx-padding:20;">
+
+            <!-- LEFT: Search panel -->
+            <VBox spacing="14" prefWidth="320"
+                  style="-fx-background-color:#16213e;-fx-padding:20;
+                         -fx-background-radius:8;">
+
+                <Label text="New Reservation"
+                       style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+
+                <!-- Customer -->
+                <VBox spacing="4">
+                    <Label text="Customer *" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                    <ComboBox fx:id="customerCombo" prefWidth="280"
+                              style="-fx-background-color:#1a1a2e;-fx-text-fill:white;
+                                     -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;"/>
+                </VBox>
+
+                <!-- Check-In -->
+                <VBox spacing="4">
+                    <Label text="Check-In Date *" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                    <DatePicker fx:id="checkInPicker" prefWidth="280"
+                                style="-fx-background-color:#1a1a2e;-fx-border-color:#444;
+                                       -fx-border-radius:5;-fx-background-radius:5;"/>
+                </VBox>
+
+                <!-- Check-Out -->
+                <VBox spacing="4">
+                    <Label text="Check-Out Date *" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                    <DatePicker fx:id="checkOutPicker" prefWidth="280"
+                                style="-fx-background-color:#1a1a2e;-fx-border-color:#444;
+                                       -fx-border-radius:5;-fx-background-radius:5;"/>
+                </VBox>
+
+                <!-- Number of Guests -->
+                <VBox spacing="4">
+                    <Label text="Number of Guests" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                    <Spinner fx:id="guestSpinner" prefWidth="280" min="1" max="10" initialValue="1"
+                             style="-fx-background-color:#1a1a2e;-fx-text-fill:white;
+                                    -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;"/>
+                </VBox>
+
+                <!-- Notes -->
+                <VBox spacing="4">
+                    <Label text="Special Requests / Notes" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                    <TextArea fx:id="notesArea" prefWidth="280" prefHeight="60"
+                              style="-fx-background-color:#1a1a2e;-fx-text-fill:white;
+                                     -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;
+                                     -fx-font-size:12px;" wrapText="true"/>
+                </VBox>
+
+                <Button text="🔍 Search Available Rooms"
+                        onAction="#handleSearch"
+                        prefWidth="280"
+                        style="-fx-background-color:#e94560;-fx-text-fill:white;
+                               -fx-font-size:13px;-fx-font-weight:bold;
+                               -fx-background-radius:5;-fx-padding:9;-fx-cursor:hand;"/>
+
+                <Label fx:id="messageLabel"
+                       style="-fx-font-size:12px;" visible="false" wrapText="true"/>
+
+            </VBox>
+
+            <!-- RIGHT: Available rooms + summary -->
+            <VBox spacing="14" HBox.hgrow="ALWAYS"
+                  style="-fx-background-color:#16213e;-fx-padding:20;
+                         -fx-background-radius:8;">
+
+                <Label text="Available Rooms"
+                       style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+
+                <ListView fx:id="roomList" VBox.vgrow="ALWAYS"
+                          style="-fx-background-color:#1a1a2e;-fx-text-fill:white;
+                                 -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;"/>
+
+                <!-- Cost Summary box -->
+                <VBox fx:id="summaryBox" spacing="6"
+                      style="-fx-background-color:#0f3460;-fx-padding:15;
+                             -fx-background-radius:6;" visible="false">
+                    <Label text="BOOKING SUMMARY"
+                           style="-fx-text-fill:#e94560;-fx-font-size:11px;-fx-font-weight:bold;"/>
+                    <Label fx:id="summaryRoom"  style="-fx-text-fill:white;-fx-font-size:13px;"/>
+                    <Label fx:id="summaryNights" style="-fx-text-fill:#aaa;-fx-font-size:12px;"/>
+                    <Separator style="-fx-background-color:#444;"/>
+                    <Label fx:id="summaryTotal"
+                           style="-fx-text-fill:#2ecc71;-fx-font-size:16px;-fx-font-weight:bold;"/>
+                </VBox>
+
+                <Button text="✓ Confirm Reservation"
+                        onAction="#handleConfirm"
+                        prefWidth="1000"
+                        style="-fx-background-color:#27ae60;-fx-text-fill:white;
+                               -fx-font-size:14px;-fx-font-weight:bold;
+                               -fx-background-radius:5;-fx-padding:10;-fx-cursor:hand;"/>
+
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

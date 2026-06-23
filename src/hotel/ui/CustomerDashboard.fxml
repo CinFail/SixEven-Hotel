@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hotel.ui.CustomerDashboardController"
+            prefWidth="900" prefHeight="640"
+            style="-fx-background-color: #1a1a2e;">
+
+    <top>
+        <HBox style="-fx-background-color:#16213e;-fx-padding:12 20;"
+              alignment="CENTER_LEFT" spacing="10">
+            <Label text="🏨  Hotel Reservation System"
+                   style="-fx-text-fill:white;-fx-font-size:16px;-fx-font-weight:bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" style="-fx-text-fill:#aaaaaa;-fx-font-size:12px;"/>
+            <Button text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color:#e94560;-fx-text-fill:white;
+                           -fx-background-radius:4;-fx-cursor:hand;-fx-font-size:11px;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" style="-fx-background-color:#1a1a2e;">
+
+            <!-- ═══ MY RESERVATIONS TAB ═══ -->
+            <Tab text="  My Reservations  ">
+                <VBox spacing="10" style="-fx-padding:15;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="My Booking History"
+                               style="-fx-text-fill:white;-fx-font-size:15px;-fx-font-weight:bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="🧾 View Bill" onAction="#handleViewBill"
+                                style="-fx-background-color:#8e44ad;-fx-text-fill:white;
+                                       -fx-background-radius:4;-fx-cursor:hand;"/>
+                    </HBox>
+                    <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color:#16213e;">
+                        <columns>
+                            <TableColumn fx:id="colResId"       text="ID"        prefWidth="50"/>
+                            <TableColumn fx:id="colResRoom"     text="Room"      prefWidth="70"/>
+                            <TableColumn fx:id="colResType"     text="Type"      prefWidth="140"/>
+                            <TableColumn fx:id="colResCheckIn"  text="Check-In"  prefWidth="110"/>
+                            <TableColumn fx:id="colResCheckOut" text="Check-Out" prefWidth="110"/>
+                            <TableColumn fx:id="colResNights"   text="Nights"    prefWidth="65"/>
+                            <TableColumn fx:id="colResGuests"   text="Guests"    prefWidth="65"/>
+                            <TableColumn fx:id="colResTotal"    text="Total (₱)" prefWidth="100"/>
+                            <TableColumn fx:id="colResStatus"   text="Status"    prefWidth="110"/>
+                            <TableColumn fx:id="colResDate"     text="Booked On" prefWidth="130"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- ═══ MY PROFILE TAB ═══ -->
+            <Tab text="  My Profile  ">
+                <ScrollPane fitToWidth="true" style="-fx-background:#1a1a2e;-fx-background-color:#1a1a2e;">
+                <VBox spacing="14" style="-fx-padding:30 50;">
+
+                    <Label text="My Profile"
+                           style="-fx-text-fill:white;-fx-font-size:16px;-fx-font-weight:bold;"/>
+
+                    <GridPane hgap="16" vgap="10">
+
+                        <Label text="Full Name" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <TextField fx:id="nameField"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="280"
+                                   style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                          -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+
+                        <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <TextField fx:id="emailField"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="280"
+                                   style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                          -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+
+                        <Label text="Phone" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <TextField fx:id="phoneField"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="280"
+                                   style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                          -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+
+                        <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <TextField fx:id="addressField"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="280"
+                                   style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                          -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+
+                        <Label text="ID Type" GridPane.columnIndex="0" GridPane.rowIndex="4"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <ComboBox fx:id="idTypeCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                                  prefWidth="280"
+                                  style="-fx-background-color:#16213e;-fx-border-color:#444;
+                                         -fx-border-radius:5;-fx-background-radius:5;"/>
+
+                        <Label text="ID Number" GridPane.columnIndex="0" GridPane.rowIndex="5"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <TextField fx:id="idNumberField"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="280"
+                                   style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                          -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+                    </GridPane>
+
+                    <Separator style="-fx-background-color:#333;"/>
+
+                    <Label text="Change Password"
+                           style="-fx-text-fill:white;-fx-font-size:13px;-fx-font-weight:bold;"/>
+
+                    <GridPane hgap="16" vgap="10">
+                        <Label text="New Password" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <PasswordField fx:id="newPasswordField"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="280"
+                                       style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                              -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+
+                        <Label text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
+                        <PasswordField fx:id="confirmPasswordField"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="280"
+                                       style="-fx-background-color:#16213e;-fx-text-fill:white;
+                                              -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;-fx-padding:8;"/>
+                    </GridPane>
+
+                    <Label fx:id="profileMessage" style="-fx-font-size:12px;" visible="false"/>
+
+                    <Button text="Save Changes" onAction="#handleUpdateProfile"
+                            prefWidth="200"
+                            style="-fx-background-color:#e94560;-fx-text-fill:white;
+                                   -fx-font-size:13px;-fx-font-weight:bold;
+                                   -fx-background-radius:5;-fx-padding:9;-fx-cursor:hand;"/>
+                </VBox>
+                </ScrollPane>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>

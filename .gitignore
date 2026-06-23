@@ -1,0 +1,15 @@
+# Excluded by user
+README.md
+SETUP_GUIDE.md
+
+# Runtime files
+hotel.db
+hotel.db-shm
+hotel.db-wal
+run_error.txt
+
+# Compiled output
+bin/
+
+# Generated receipts
+receipts/
