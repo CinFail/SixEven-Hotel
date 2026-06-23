@@ -1042,15 +1042,15 @@ Called by both dashboard controllers. Clears the session and returns to the logi
 
 #### What it does
 
-`MainApp` is the entry point of the entire application. It is the class that Java runs first when the program starts. It inherits from JavaFX's `Application` class (making it a proper JavaFX application), initializes the database, shows the first screen, and provides a static `showScreen()` method that every controller calls to navigate between screens.
+`MainApp` is the entry point of the entire application. It is the class that Java runs first when the program starts. It inherits from JavaFX's `Application` class (making it a proper JavaFX application), initializes the database, shows the first screen maximized, and provides a static `showScreen()` method that every controller calls to navigate between screens. Every screen switch always opens the window in fullscreen/maximized mode.
 
 #### How it works
 
 JavaFX requires the entry point class to extend `Application` and implement the `start()` method. When the application launches, the JavaFX runtime calls `start()` with the primary `Stage` object (the main application window).
 
-`MainApp.start()` saves that stage as a `private static Stage primaryStage`, initializes the database, and calls `showScreen("Login")` to display the first screen.
+`MainApp.start()` saves that stage as a `private static Stage primaryStage`, initializes the database, then calls `stage.show()` **before** calling `showScreen("Login")`. This ordering is critical: on Windows, `setMaximized(true)` only works reliably on a stage that is already visible. By showing the stage first and then loading the Login screen through `showScreen()`, the maximization fires on a live window and takes effect immediately.
 
-The `showScreen()` method is the navigation mechanism of the entire application. Every controller that wants to switch screens (e.g., after login, after completing a task) calls `MainApp.showScreen("ScreenName")`. The method loads the corresponding FXML file from the classpath, creates a new `Scene` from it, sets that scene on the primary stage, and resizes the window to fit.
+The `showScreen()` method is the navigation mechanism of the entire application. Every controller that wants to switch screens calls `MainApp.showScreen("ScreenName")`. The method loads the corresponding FXML file from the classpath, creates a new `Scene` from it, and uses a `setMaximized(false)` → `setScene()` → `setMaximized(true)` sequence to guarantee the window is fullscreen after every screen switch.
 
 The `stop()` method is automatically called by JavaFX when the application window is closed. It closes the database connection cleanly.
 
@@ -1068,19 +1068,20 @@ private static Stage primaryStage;
 ```
 The stage is stored as `static` so that `showScreen()` (also static) can access it from anywhere. Controllers call `MainApp.showScreen("X")` without needing a reference to the `MainApp` instance.
 
-**The `showScreen()` method:**  
+**The `start()` method — show before load:**  
 ```java
-public static void showScreen(String screenName) {
-    FXMLLoader loader = new FXMLLoader(
-        MainApp.class.getResource("/hotel/ui/" + screenName + ".fxml")
-    );
-    Parent root = loader.load();
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.sizeToScene();
-}
+stage.show();        // show first so setMaximized works reliably on Windows
+showScreen("Login");
 ```
-`FXMLLoader.load()` reads the FXML file and creates all the UI components. It also instantiates the corresponding controller class and injects all `@FXML` fields. This is where JavaFX connects the FXML layout with the controller code. `sizeToScene()` resizes the window to fit the loaded layout.
+The stage is made visible with `show()` before `showScreen()` is called. This is intentional: JavaFX's `setMaximized(true)` only produces a visible maximized window when called on an already-showing stage. If `showScreen()` were called first, the Login screen would appear at its natural preferred size (400×500) instead of fullscreen.
+
+**The `showScreen()` fullscreen sequence:**  
+```java
+primaryStage.setMaximized(false); // reset so the next true triggers a real resize
+primaryStage.setScene(scene);
+primaryStage.setMaximized(true);
+```
+This three-step sequence is used for every screen switch. The reason `setMaximized(false)` is needed first is that when the stage is already marked as maximized (property value is `true`) and a new scene is loaded, calling `setScene()` can cause JavaFX to resize the window to the new scene's preferred dimensions. At that point the maximized property is still `true` but the window is visually smaller. Calling `setMaximized(true)` again would be a no-op because the property did not change. Resetting to `false` first forces a real property transition from `false` to `true`, which triggers the OS to actually maximize the window.
 
 **The `stop()` lifecycle method:**  
 ```java
@@ -1104,16 +1105,17 @@ DatabaseManager.initializeDatabase();
 Called once on startup. Creates all tables and seeds default data if they do not exist yet.
 
 ```java
-FXMLLoader loader = new FXMLLoader(
-    MainApp.class.getResource("/hotel/ui/" + screenName + ".fxml")
-);
+stage.show();
+showScreen("Login");
 ```
-Loads the FXML file using the classpath. The `/hotel/ui/` prefix is the package path inside the compiled output. This is how JavaFX connects layouts to controllers.
+Order matters. The stage must be visible before `showScreen()` runs so that `setMaximized(true)` inside `showScreen()` actually maximizes the window.
 
 ```java
-primaryStage.sizeToScene();
+primaryStage.setMaximized(false);
+primaryStage.setScene(scene);
+primaryStage.setMaximized(true);
 ```
-Automatically resizes the application window to perfectly fit the loaded FXML layout. Different screens have different sizes, and this ensures the window adjusts accordingly.
+The guaranteed fullscreen sequence used on every screen transition. Resetting to `false` first ensures the subsequent `true` always fires a real property change event, regardless of the previous maximized state.
 
 ---
 
@@ -1541,7 +1543,9 @@ After a successful reservation creation, the system navigates back to the staff 
 
 #### What it does
 
-`BillReport` generates a professional PDF receipt for a bill using the JasperReports library (version 6.21.0). When called, it produces a formatted A4 PDF file containing the hotel name, reservation details, billing breakdown (subtotal, discount, tax, grand total), and payment status. The PDF is saved to a `receipts/` folder in the project directory and automatically opened in the system's default PDF viewer.
+`BillReport` generates a professional PDF receipt for a bill using the JasperReports library (version 6.21.0). When called, it produces a formatted A4 PDF file containing the hotel name ("SIXEVEN HOTEL"), an "OFFICIAL RECEIPT" heading, reservation details, billing breakdown (subtotal, discount, tax, grand total), and payment status. The PDF is saved to a `receipts/` folder in the project directory and automatically opened in the system's default PDF viewer.
+
+The receipt is intentionally minimal — it does not include a tagline below the hotel name or a closing thank-you message at the bottom. Only factual billing information is shown.
 
 #### How it works
 
