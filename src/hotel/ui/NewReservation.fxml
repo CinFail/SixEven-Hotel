@@ -67,7 +67,8 @@
                 <VBox spacing="4">
                     <Label text="Special Requests / Notes" style="-fx-text-fill:#cccccc;-fx-font-size:12px;"/>
                     <TextArea fx:id="notesArea" prefWidth="280" prefHeight="60"
-                              style="-fx-background-color:#1a1a2e;-fx-text-fill:white;
+                              style="-fx-background-color:#1a1a2e;-fx-control-inner-background:#1a1a2e;
+                                     -fx-text-fill:white;-fx-prompt-text-fill:#888;
                                      -fx-border-color:#444;-fx-border-radius:5;-fx-background-radius:5;
                                      -fx-font-size:12px;" wrapText="true"/>
                 </VBox>

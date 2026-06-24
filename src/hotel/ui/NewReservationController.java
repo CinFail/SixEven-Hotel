@@ -42,6 +42,20 @@ public class NewReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         customerCombo.setItems(FXCollections.observableArrayList(userDAO.getAllCustomers()));
+        customerCombo.setCellFactory(lv -> new ListCell<User>() {
+            @Override protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.toString());
+                setStyle("-fx-text-fill:white;-fx-background-color:#1a1a2e;");
+            }
+        });
+        customerCombo.setButtonCell(new ListCell<User>() {
+            @Override protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.toString());
+                setStyle("-fx-text-fill:white;-fx-background-color:#1a1a2e;");
+            }
+        });
         checkInPicker.setValue(LocalDate.now());
         checkOutPicker.setValue(LocalDate.now().plusDays(1));
 
